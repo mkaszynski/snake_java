@@ -66,7 +66,27 @@ let speed = 7;
 
 let first_direction = direction;
 
+let start = false;
+
 let running = true;
+
+function mouse_snake_direction(direction, mousem) {
+  let correct = false;
+  if (mousem[0]/2 < mousem[1] && 600 - mousem[0]/2 < mousem[1] && direction === 1) {
+    correct = true;
+  } else if (mousem[0]/2 > mousem[1] && 600 - mousem[0]/2 < mousem[1] && direction === 2) {
+    correct = true;
+  } else if (mousem[0]/2 < 600 - mousem[1] && 600 - mousem[0]/2 < 600 - mousem[1] && direction === 3) {
+    correct = true;
+  } else if (600 - mousem[0]/2 > mousem[1] && mousem[0]/2 < mousem[1] && direction === 4) {
+    correct = true;
+  }
+  if (!mousem[2]) {
+    correct = false;
+  }
+  return correct;
+}
+
 function loop() {
   if (!running) return;
 
@@ -74,21 +94,17 @@ function loop() {
 
   ctx.fillStyle = "rgb(0, 175, 0)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  if (keys["a"] || mouse.held[0] || mouse.x) {
-    let a = 1;
-  }
 
-  if (keys["a"] && !(first_direction === 2)) {
+  if ((keys["a"] || mouse_snake_direction(4, [mouse.x, mouse.y, mouse.held[0]])) && !(first_direction === 2)) {
     direction = 4;
   }
-  if (keys["d"] && !(first_direction === 4)) {
+  if ((keys["d"] || mouse_snake_direction(2, [mouse.x, mouse.y, mouse.held[0]])) && !(first_direction === 4)) {
     direction = 2;
   }
-  if (keys["s"] && !(first_direction === 3)) {
+  if ((keys["s"] || mouse_snake_direction(1, [mouse.x, mouse.y, mouse.held[0]])) && !(first_direction === 3)) {
     direction = 1;
   }
-  if (keys["w"] && !(first_direction === 1)) {
+  if ((keys["w"] || mouse_snake_direction(3, [mouse.x, mouse.y, mouse.held[0]])) && !(first_direction === 1)) {
     direction = 3;
   }
 
@@ -116,13 +132,15 @@ function loop() {
 
   if (!(0 <= snake[snake.length - 1][0] && snake[snake.length - 1][0] < 40) ||
     !(0 <= snake[snake.length - 1][1] && snake[snake.length - 1][1] < 20)) {
-    running = false;
+      start = true;
+      time1 = 0;
   }
 
   for (let i = 0; i < snake.length; i++) {
     if (snake.length - 1 != i) {
       if (snake[snake.length - 1][0] === snake[i][0] && snake[snake.length - 1][1] === snake[i][1]) {
-        running = false;
+        start = true;
+        time1 = 0;
       }
     }
   }
@@ -142,8 +160,29 @@ function loop() {
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
   ctx.fillText("Score " + String(Math.floor(length - 3)), 0, 50);
-  
 
+  if (start) {
+    ctx.fillStyle = "rgb(0, 175, 0)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = "white";          // text color
+    ctx.font = "60px Arial";          // font size and family
+    ctx.fillText("You died!", 500, 300);
+
+    snake = [[20, 10]];
+
+    direction = 1;
+    fruit = [Math.floor(Math.random()*40), Math.floor(Math.random()*20)];
+
+    length = 3;
+    first_direction = direction;
+
+    if (time1 >= 250) {
+      start = false;
+    }
+
+  }
+  
   requestAnimationFrame(loop);
 }
 
