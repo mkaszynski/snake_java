@@ -6,7 +6,7 @@ const ctx = canvas.getContext("2d");
 
 let snake = [[20, 10]];
 
-let direction = [0, 1];
+let direction = 1;
 let fruit = [Math.floor(Math.random()*40), Math.floor(Math.random()*20)];
 
 let length = 3;
@@ -61,8 +61,10 @@ canvas.addEventListener("mousedown", e => mouse.held[e.button] = true);
 canvas.addEventListener("mouseup", e => mouse.held[e.button] = false);
 
 
-time1 = 0;
-speed = 10;
+let time1 = 0;
+let speed = 7;
+
+let first_direction = direction;
 
 let running = true;
 function loop() {
@@ -77,31 +79,69 @@ function loop() {
     let a = 1;
   }
 
-  if (keys["a"] && !(direction === [1, 0])) {
-    direction = [-1, 0];
+  if (keys["a"] && !(first_direction === 2)) {
+    direction = 4;
   }
-  if (keys["d"] && !(direction === [-1, 0])) {
-    direction = [1, 0];
+  if (keys["d"] && !(first_direction === 4)) {
+    direction = 2;
   }
-  if (keys["s"] && !(direction === [0, -1])) {
-    direction = [0, 1];
+  if (keys["s"] && !(first_direction === 3)) {
+    direction = 1;
   }
-  if (keys["w"] && !(direction === [0, 1])) {
-    direction = [0, -1];
+  if (keys["w"] && !(first_direction === 1)) {
+    direction = 3;
   }
 
   if (time1 % speed === 0) {
-    snake.push([snake[snake.length - 1][0] + direction[0], snake[snake.length - 1][1] + direction[1]]);
+    cor_dir = [0, 1];
+    if (direction === 2) {
+      cor_dir = [1, 0];
+    } else if (direction === 3) {
+      cor_dir = [0, -1];
+    } else if (direction === 4) {
+      cor_dir = [-1, 0];
+    }
+    snake.push([snake[snake.length - 1][0] + cor_dir[0], snake[snake.length - 1][1] + cor_dir[1]]);
+    first_direction = direction;
   }
 
   if (snake.length > length) {
     snake.splice(0, 1);
   }
 
+  if (snake[snake.length - 1][0] === fruit[0] && snake[snake.length - 1][1] === fruit[1]) {
+    fruit = [Math.floor(Math.random()*40), Math.floor(Math.random()*20)];
+    length += 1;
+  }
+
+  if (!(0 <= snake[snake.length - 1][0] && snake[snake.length - 1][0] < 40) ||
+    !(0 <= snake[snake.length - 1][1] && snake[snake.length - 1][1] < 20)) {
+    running = false;
+  }
+
+  for (let i = 0; i < snake.length; i++) {
+    if (snake.length - 1 != i) {
+      if (snake[snake.length - 1][0] === snake[i][0] && snake[snake.length - 1][1] === snake[i][1]) {
+        running = false;
+      }
+    }
+  }
+
+  ctx.fillStyle = "rgb(255, 0, 0)";
+  ctx.fillRect(fruit[0]*30, fruit[1]*30, 30, 30);
+
   for (let i of snake) {
     ctx.fillStyle = "rgb(0, 255, 0)";
-    ctx.fillRect(i[0]*30, i[1]*30, 30, 30);
+    if (i[0] === snake[snake.length - 1][0] && i[1] === snake[snake.length - 1][1]) {
+      ctx.fillRect(i[0]*30 - 2, i[1]*30 - 2, 34, 34);
+    } else {
+      ctx.fillRect(i[0]*30, i[1]*30, 30, 30);
+    }
   };
+
+  ctx.fillStyle = "white";          // text color
+  ctx.font = "30px Arial";          // font size and family
+  ctx.fillText("Score " + String(Math.floor(length - 3)), 0, 50);
   
 
   requestAnimationFrame(loop);
