@@ -1,6 +1,6 @@
 const canvas = document.createElement("canvas");
-canvas.width = 1200;
-canvas.height = 600;
+canvas.width = 1120;
+canvas.height = 560;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 
@@ -72,13 +72,13 @@ let running = true;
 
 function mouse_snake_direction(direction, mousem) {
   let correct = false;
-  if (mousem[0]/2 < mousem[1] && 600 - mousem[0]/2 < mousem[1] && direction === 1) {
+  if (mousem[0]/2 < mousem[1] && 560 - mousem[0]/2 < mousem[1] && direction === 1) {
     correct = true;
-  } else if (mousem[0]/2 > mousem[1] && 600 - mousem[0]/2 < mousem[1] && direction === 2) {
+  } else if (mousem[0]/2 > mousem[1] && 560 - mousem[0]/2 < mousem[1] && direction === 2) {
     correct = true;
-  } else if (mousem[0]/2 < 600 - mousem[1] && 600 - mousem[0]/2 < 600 - mousem[1] && direction === 3) {
+  } else if (mousem[0]/2 < 560 - mousem[1] && 560 - mousem[0]/2 < 560 - mousem[1] && direction === 3) {
     correct = true;
-  } else if (600 - mousem[0]/2 > mousem[1] && mousem[0]/2 < mousem[1] && direction === 4) {
+  } else if (560 - mousem[0]/2 > mousem[1] && mousem[0]/2 < mousem[1] && direction === 4) {
     correct = true;
   }
   if (!mousem[2]) {
@@ -146,14 +146,14 @@ function loop() {
   }
 
   ctx.fillStyle = "rgb(255, 0, 0)";
-  ctx.fillRect(fruit[0]*30, fruit[1]*30, 30, 30);
+  ctx.fillRect(fruit[0]*28, fruit[1]*28, 28, 28);
 
   for (let i of snake) {
     ctx.fillStyle = "rgb(0, 255, 0)";
     if (i[0] === snake[snake.length - 1][0] && i[1] === snake[snake.length - 1][1]) {
-      ctx.fillRect(i[0]*30 - 2, i[1]*30 - 2, 34, 34);
+      ctx.fillRect(i[0]*28 - 2, i[1]*28 - 2, 32, 32);
     } else {
-      ctx.fillRect(i[0]*30, i[1]*30, 30, 30);
+      ctx.fillRect(i[0]*28, i[1]*28, 28, 28);
     }
   };
 
@@ -167,7 +167,7 @@ function loop() {
     
     ctx.fillStyle = "white";          // text color
     ctx.font = "60px Arial";          // font size and family
-    ctx.fillText("You died!", 500, 300);
+    ctx.fillText("You died!", 450, 300);
 
     snake = [[20, 10]];
 
@@ -177,7 +177,7 @@ function loop() {
     length = 3;
     first_direction = direction;
 
-    if (time1 >= 250) {
+    if (time1 >= 100) {
       start = false;
     }
 
