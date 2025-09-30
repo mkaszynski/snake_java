@@ -194,16 +194,21 @@ function loop() {
     ctx.font = "60px Arial";          // font size and family
     ctx.fillText("You died!", 450, 300);
 
+    ctx.fillStyle = "white";          // text color
+    ctx.font = "30px Arial";          // font size and family
+    ctx.fillText("Score " + String(Math.floor(length - 3)), 0, 50);
+
+
     snake = [[20, 10]];
 
     direction = 1;
     fruit = [Math.floor(Math.random()*40), Math.floor(Math.random()*20)];
 
-    length = 3;
     first_direction = direction;
 
     if (time1 >= 100) {
       start = false;
+      length = 3;
     }
 
   }
