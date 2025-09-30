@@ -70,7 +70,7 @@ let start = false;
 
 let running = true;
 
-function mouse_snake_direction(direction, mousem) {
+function mouse_snake_direction(direction, mousem, snakem) {
   let correct = false;
   if (mousem[0]/2 < mousem[1] && 560 - mousem[0]/2 < mousem[1] && direction === 1) {
     correct = true;
@@ -87,6 +87,26 @@ function mouse_snake_direction(direction, mousem) {
   return correct;
 }
 
+function mouse_snake_direction1(direction, mousem, snakem) {
+  let correct = false;
+  mousem[0] = mousem[0] - snakem[0];
+  mousem[1] = mousem[1] - snakem[1];
+  if (mousem[0] < mousem[1] && mousem[0] > -mousem[1] && direction === 1) {
+    correct = true;
+    consle
+  } else if (mousem[0] > mousem[1] && mousem[0] > -mousem[1] && direction === 2) {
+    correct = true;
+  } else if (mousem[0] < mousem[1] && mousem[0] < -mousem[1] && direction === 3) {
+    correct = true;
+  } else if (0 - mousem[0] > mousem[1] && mousem[0] < -mousem[1] && direction === 4) {
+    correct = true;
+  }
+  if (!mousem[2]) {
+    correct = false;
+  }
+  return correct;
+}
+
 function loop() {
   if (!running) return;
 
@@ -95,16 +115,18 @@ function loop() {
   ctx.fillStyle = "rgb(0, 175, 0)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  if ((keys["a"] || mouse_snake_direction(4, [mouse.x, mouse.y, mouse.held[0]])) && !(first_direction === 2)) {
+  let snake_head = [snake[snake.length - 1][0], snake[snake.length - 1][1]];
+
+  if ((keys["a"] || mouse_snake_direction(4, [mouse.x, mouse.y, mouse.held[0]], snake_head)) && !(first_direction === 2)) {
     direction = 4;
   }
-  if ((keys["d"] || mouse_snake_direction(2, [mouse.x, mouse.y, mouse.held[0]])) && !(first_direction === 4)) {
+  if ((keys["d"] || mouse_snake_direction(2, [mouse.x, mouse.y, mouse.held[0]], snake_head)) && !(first_direction === 4)) {
     direction = 2;
   }
-  if ((keys["s"] || mouse_snake_direction(1, [mouse.x, mouse.y, mouse.held[0]])) && !(first_direction === 3)) {
+  if ((keys["s"] || mouse_snake_direction(1, [mouse.x, mouse.y, mouse.held[0]], snake_head)) && !(first_direction === 3)) {
     direction = 1;
   }
-  if ((keys["w"] || mouse_snake_direction(3, [mouse.x, mouse.y, mouse.held[0]])) && !(first_direction === 1)) {
+  if ((keys["w"] || mouse_snake_direction(3, [mouse.x, mouse.y, mouse.held[0]], snake_head)) && !(first_direction === 1)) {
     direction = 3;
   }
 
@@ -141,6 +163,9 @@ function loop() {
       if (snake[snake.length - 1][0] === snake[i][0] && snake[snake.length - 1][1] === snake[i][1]) {
         start = true;
         time1 = 0;
+      }
+      if (snake[i][0] === fruit[0] && snake[i][1] === fruit[0]) {
+        fruit = [Math.floor(Math.random()*40), Math.floor(Math.random()*20)];
       }
     }
   }
