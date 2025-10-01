@@ -95,16 +95,16 @@ function mouse_snake_direction1(direction, mousem, snakem) {
 
 function mouse_snake_direction(direction, mousem, snakem) {
   let correct = false;
-  if (1080 > mousem[0] && mousem[0] > 1000 && 480 > mousem[1] && mousem[1] > 400 && direction === 1) {
+  if (980 > mousem[0] && mousem[0] > 800 && 580 > mousem[1] && mousem[1] > 400 && direction === 1) {
     correct = true;
   }
-  if (1180 > mousem[0] && mousem[0] > 1100 && 480 > mousem[1] && mousem[1] > 400 && direction === 2) {
+  if (1180 > mousem[0] && mousem[0] > 1000 && 580 > mousem[1] && mousem[1] > 400 && direction === 2) {
     correct = true;
   }
-  if (1080 > mousem[0] && mousem[0] > 1000 && 380 > mousem[1] && mousem[1] > 300 && direction === 3) {
+  if (980 > mousem[0] && mousem[0] > 800 && 380 > mousem[1] && mousem[1] > 200 && direction === 3) {
     correct = true;
   }
-  if (980 > mousem[0] && mousem[0] > 900 && 480 > mousem[1] && mousem[1] > 400 && direction === 4) {
+  if (780 > mousem[0] && mousem[0] > 600 && 580 > mousem[1] && mousem[1] > 400 && direction === 4) {
     correct = true;
   }
   if (!mousem[2]) {
@@ -113,7 +113,7 @@ function mouse_snake_direction(direction, mousem, snakem) {
   return correct;
 }
 
-dt_now = 0.016;
+let dt_now = 0.016;
 
 function loop() {
   if (!running) return;
@@ -200,16 +200,16 @@ function loop() {
 
   if (isMobile()) {
     ctx.fillStyle = "rgba(0, 200, 255, 0.5)"; // last value = transparency (0 to 1)
-    ctx.fillRect(1000, 400, 80, 80);
+    ctx.fillRect(800, 400, 180, 180);
 
     ctx.fillStyle = "rgba(0, 200, 255, 0.5)"; // last value = transparency (0 to 1)
-    ctx.fillRect(1100, 400, 80, 80);
+    ctx.fillRect(1000, 400, 180, 180);
 
     ctx.fillStyle = "rgba(0, 200, 255, 0.5)"; // last value = transparency (0 to 1)
-    ctx.fillRect(1000, 300, 80, 80);
+    ctx.fillRect(800, 200, 180, 180);
 
     ctx.fillStyle = "rgba(0, 200, 255, 0.5)"; // last value = transparency (0 to 1)
-    ctx.fillRect(900, 400, 80, 80);
+    ctx.fillRect(600, 400, 180, 180);
   }
 
   ctx.fillStyle = "white";          // text color
