@@ -4,6 +4,8 @@ canvas.height = 560;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 
+let last = performance.now();
+
 let snake = [[20, 10]];
 
 let direction = 1;
@@ -110,6 +112,12 @@ function mouse_snake_direction1(direction, mousem, snakem) {
 function loop() {
   if (!running) return;
 
+  let now = performance.now();
+  let dt = (now - last) / 1000; // seconds since last frame
+  last = now;
+
+  if (dt > 1) dt = 1/60;
+
   time1 += 1;
 
   ctx.fillStyle = "rgb(0, 175, 0)";
@@ -130,7 +138,7 @@ function loop() {
     direction = 3;
   }
 
-  if (time1 % speed === 0) {
+  if (time1 % Math.floor(speed/dt/60) === 0) {
     cor_dir = [0, 1];
     if (direction === 2) {
       cor_dir = [1, 0];
@@ -206,7 +214,7 @@ function loop() {
 
     first_direction = direction;
 
-    if (time1 >= 100) {
+    if (time1 >= 100/dt/60) {
       start = false;
       length = 3;
     }
