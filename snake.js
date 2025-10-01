@@ -109,6 +109,8 @@ function mouse_snake_direction1(direction, mousem, snakem) {
   return correct;
 }
 
+dt_now = 0.016;
+
 function loop() {
   if (!running) return;
 
@@ -117,6 +119,8 @@ function loop() {
   last = now;
 
   if (dt > 1) dt = 1/60;
+
+  if (time1 < 10) dt_now = dt;
 
   time1 += 1;
 
@@ -138,7 +142,7 @@ function loop() {
     direction = 3;
   }
 
-  if (time1 % Math.floor(speed/dt/60) === 0) {
+  if (time1 % Math.floor(speed/dt_now/60) === 0) {
     cor_dir = [0, 1];
     if (direction === 2) {
       cor_dir = [1, 0];
@@ -172,9 +176,6 @@ function loop() {
         start = true;
         time1 = 0;
       }
-      if (snake[i][0] === fruit[0] && snake[i][1] === fruit[0]) {
-        fruit = [Math.floor(Math.random()*40), Math.floor(Math.random()*20)];
-      }
     }
   }
 
@@ -187,6 +188,9 @@ function loop() {
       ctx.fillRect(i[0]*28 - 2, i[1]*28 - 2, 32, 32);
     } else {
       ctx.fillRect(i[0]*28, i[1]*28, 28, 28);
+    }
+    if (i[0] === fruit[0] && i[1] === fruit[1]) {
+        fruit = [Math.floor(Math.random()*40), Math.floor(Math.random()*20)];
     }
   };
 
