@@ -1,6 +1,6 @@
 const canvas = document.createElement("canvas");
-canvas.width = 1120;
-canvas.height = 560;
+canvas.width = 1200;
+canvas.height = 600;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 
@@ -27,6 +27,10 @@ function draw_circle(x, y, radius, color) {
   ctx.beginPath();              // start a new path
   ctx.arc(x, y, radius, 0, Math.PI * 2); // x, y, radius, startAngle, endAngle
   ctx.fill();
+}
+
+function isMobile() {
+  return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
 document.addEventListener("keydown", e => keys[e.key] = true);
@@ -72,7 +76,7 @@ let start = false;
 
 let running = true;
 
-function mouse_snake_direction(direction, mousem, snakem) {
+function mouse_snake_direction1(direction, mousem, snakem) {
   let correct = false;
   if (mousem[0]/2 < mousem[1] && 560 - mousem[0]/2 < mousem[1] && direction === 1) {
     correct = true;
@@ -89,18 +93,18 @@ function mouse_snake_direction(direction, mousem, snakem) {
   return correct;
 }
 
-function mouse_snake_direction1(direction, mousem, snakem) {
+function mouse_snake_direction(direction, mousem, snakem) {
   let correct = false;
-  mousem[0] = mousem[0] - snakem[0];
-  mousem[1] = mousem[1] - snakem[1];
-  if (mousem[0] < mousem[1] && mousem[0] > -mousem[1] && direction === 1) {
+  if (1080 > mousem[0] && mousem[0] > 1000 && 480 > mousem[1] && mousem[1] > 400 && direction === 1) {
     correct = true;
-    consle
-  } else if (mousem[0] > mousem[1] && mousem[0] > -mousem[1] && direction === 2) {
+  }
+  if (1180 > mousem[0] && mousem[0] > 1100 && 480 > mousem[1] && mousem[1] > 400 && direction === 2) {
     correct = true;
-  } else if (mousem[0] < mousem[1] && mousem[0] < -mousem[1] && direction === 3) {
+  }
+  if (1080 > mousem[0] && mousem[0] > 1000 && 380 > mousem[1] && mousem[1] > 300 && direction === 3) {
     correct = true;
-  } else if (0 - mousem[0] > mousem[1] && mousem[0] < -mousem[1] && direction === 4) {
+  }
+  if (980 > mousem[0] && mousem[0] > 900 && 480 > mousem[1] && mousem[1] > 400 && direction === 4) {
     correct = true;
   }
   if (!mousem[2]) {
@@ -180,19 +184,33 @@ function loop() {
   }
 
   ctx.fillStyle = "rgb(255, 0, 0)";
-  ctx.fillRect(fruit[0]*28, fruit[1]*28, 28, 28);
+  ctx.fillRect(fruit[0]*30, fruit[1]*30, 30, 30);
 
   for (let i of snake) {
     ctx.fillStyle = "rgb(0, 255, 0)";
     if (i[0] === snake[snake.length - 1][0] && i[1] === snake[snake.length - 1][1]) {
-      ctx.fillRect(i[0]*28 - 2, i[1]*28 - 2, 32, 32);
+      ctx.fillRect(i[0]*30 - 2, i[1]*30 - 2, 34, 34);
     } else {
-      ctx.fillRect(i[0]*28, i[1]*28, 28, 28);
+      ctx.fillRect(i[0]*30, i[1]*30, 30, 30);
     }
     if (i[0] === fruit[0] && i[1] === fruit[1]) {
         fruit = [Math.floor(Math.random()*40), Math.floor(Math.random()*20)];
     }
   };
+
+  if (isMobile()) {
+    ctx.fillStyle = "rgba(0, 200, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(1000, 400, 80, 80);
+
+    ctx.fillStyle = "rgba(0, 200, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(1100, 400, 80, 80);
+
+    ctx.fillStyle = "rgba(0, 200, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(1000, 300, 80, 80);
+
+    ctx.fillStyle = "rgba(0, 200, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(900, 400, 80, 80);
+  }
 
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
