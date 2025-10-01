@@ -124,7 +124,8 @@ function loop() {
 
   if (dt > 1) dt = 1/60;
 
-  if (time1 < 10) dt_now = dt;
+  if (time1 == 0) dt_now = dt;
+  if (time1 > 0 && time1 < 10) dt_now = dt_now*0.75 + dt*0.25;
 
   time1 += 1;
 
